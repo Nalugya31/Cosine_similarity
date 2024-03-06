@@ -5,39 +5,29 @@ import csv
 faker = Faker()
 
 # Predefine some choices
-skills = ['Finance', 'Web Development', 'Graphic Design', 'Digital Marketing', 'Data Analysis', 'Nutrition', 'Nursing', 'Teaching', 'Engineering', 'Real Estate']
-educations = ["Bachelor's in Business Administration", "Bachelor's in Computer Science", "Bachelor's in Design", "Bachelor's in Marketing", "Bachelor's in Data Science", "Bachelor's in Health Sciences", "Bachelor's in Nursing", "Bachelor's in Education", "Bachelor's in Engineering", "Bachelor's in Real Estate Management"]
+skills = {'Bachelors degree in Finance': ['Accounting', 'Economics', 'Data Analysis', 'Strategic Thinking', 'Business Awareness'],
+          'Bachelors degree in Web Development': ['HTML/CSS', 'JavaScript', 'Backend Development', 'Frontend Development', 'Problem Solving'],
+          'Bachelors degree in Graphic Design': ['Adobe Creative Suite', 'Layout Design', 'Typography', 'Visual Arts', 'Illustration'],
+          'Bachelors degree in Digital Marketing': ['SEO/SEM', 'Content creation', 'Data analysis', 'Web design', 'Campaign Management'],
+          'Bachelors degree in Data Analysis': ['Programming', 'Statistical modeling', 'Data manipulation', 'Database Administration', 'Presentation Skills'],
+          'Bachelors degree in Nutrition': ['Food Assessment', 'Nutrition Therapy', 'Diet plan', 'Public Health', 'Molecular Biology'],
+          'Bachelors degree in Nursing': ['Patient Care', 'Medical teamwork', 'Communication', 'Medicine Dosage Calculation', 'Time management'],
+          'Bachelors degree in Teaching': ['Lesson Planning', 'Classroom Management', 'Education Psychology', 'Child Development', 'Teaching']}
+educations = list(skills.keys())  # Update education list from the skills dictionary
 
 with open('random_data.csv', 'a', newline='') as file:
     writer = csv.writer(file)
     writer.writerow(["Name", "Skill", "Education", "Experience"])
 
     for _ in range(6000):
-        skill = random.choice(skills)
-        if skill == 'Finance':
-            education = "Bachelor's in Business Administration"
-        elif skill == 'Web Development':
-            education = "Bachelor's in Computer Science"
-        elif skill == 'Graphic Design':
-            education = "Bachelor's in Design"
-        elif skill == 'Digital Marketing':
-            education = "Bachelor's in Marketing"
-        elif skill == 'Data Analysis':
-            education = "Bachelor's in Data Science"
-        elif skill == 'Nutrition':
-            education = "Bachelor's in Health Sciences"
-        elif skill == 'Nursing':
-            education = "Bachelor's in Nursing"
-        elif skill == 'Teaching':
-            education = "Bachelor's in Education"
-        elif skill == 'Engineering':
-            education = "Bachelor's in Engineering"
-        else: # Real Estate skill
-            education = "Bachelor's in Real Estate Management"
-            
+        random_education = random.choice(educations)
+        person_skills = random.sample(skills[random_education], 5)  # Sample 5 skills related to the education
+
+        all_skills = ', '.join(person_skills)  # Join all skills with comma 
+
         writer.writerow([
             faker.name(),
-            skill,
-            education,
-            f"{random.randint(1,20)} years"     # generate random experience in years
+            all_skills,
+            random_education, 
+            f"{random.randint(1, 20)} years"  # generate random experience in years
         ])
